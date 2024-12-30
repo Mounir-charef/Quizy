@@ -1,16 +1,59 @@
-# quizy
+# Flutter Quiz App
 
-A simple quize game with flutter
+A simple Flutter application that presents a quiz to the user and displays the score at the end.
+
+## Features
+
+- Displays a series of true/false questions.
+- Tracks the user's score.
+- Shows the final score on a separate screen.
+
+## Screens
+
+1. **Profile Card Page**: Displays a profile card with user information.
+2. **Quiz Page**: Presents quiz questions and allows the user to answer.
+3. **Score Page**: Displays the user's score after completing the quiz.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+### Prerequisites
 
-A few resources to get you started if this is your first Flutter project:
+- Flutter SDK: [Install Flutter](https://flutter.dev/docs/get-started/install)
+- Dart SDK: Included with Flutter
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Installation
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Clone the repository:
+    ```sh
+    git clone https://github.com/your-username/flutter-quiz-app.git
+    ```
+2. Navigate to the project directory:
+    ```sh
+    cd flutter-quiz-app
+    ```
+3. Install dependencies:
+    ```sh
+    flutter pub get
+    ```
+
+### Running the App
+
+1. Run the app on an emulator or connected device:
+    ```sh
+    flutter run
+    ```
+
+## Project Structure
+
+- `lib/screens/profile_card.dart`: Contains the `ProfileCardPage` widget.
+- `lib/screens/quiz_page.dart`: Contains the `QuizPage` widget and quiz logic.
+- `lib/screens/score_page.dart`: Contains the `ScoreScreen` widget.
+- `lib/models/question.dart`: Defines the `Question` model.
+
+## Dependencies
+
+- `flutter`: The Flutter framework.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
