@@ -10,25 +10,15 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  final List<Question> _questions = [
-    Question('Flutter is an open-source UI software development kit created by Google.', true),
-    Question('The first version of Flutter was known as Sky.', true),
-    Question('Dart is a statically-typed programming language.', true),
-    Question('Does flutter use native widgets?', false),
-    Question('Flutter was first released in May 2017.', true),
-    Question('The stable version of Flutter was released in December 2018.', true),
-
-  ];
-
   int _currentQuestionIndex = 0;
   int _score = 0;
 
   void _answerQuestion(bool response) {
-    if (_questions[_currentQuestionIndex].isCorrect == response) {
+    if (questions[_currentQuestionIndex].isCorrect == response) {
       _score++;
     }
     setState(() {
-      if (_currentQuestionIndex < _questions.length - 1) {
+      if (_currentQuestionIndex < questions.length - 1) {
         _currentQuestionIndex++;
       } else {
         // Navigate to a score screen
@@ -36,7 +26,7 @@ class _QuizPageState extends State<QuizPage> {
           context,
           MaterialPageRoute(
             builder: (context) => ScoreScreen(
-              totalQuestions: _questions.length,
+              totalQuestions: questions.length,
               score: _score,
             ),
           ),
@@ -49,7 +39,7 @@ class _QuizPageState extends State<QuizPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Question ${_currentQuestionIndex + 1} of ${_questions.length}'),
+        title: Text('Question ${_currentQuestionIndex + 1} of ${questions.length}'),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -62,7 +52,7 @@ class _QuizPageState extends State<QuizPage> {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
-              _questions[_currentQuestionIndex].questionText,
+              questions[_currentQuestionIndex].questionText,
               style: const TextStyle(fontSize: 18),
               textAlign: TextAlign.center,
             ),
