@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:quizy/main.dart';
+import 'package:flutter/material.dart';
 
 void main() {
   testWidgets('Start quiz', (WidgetTester tester) async {
@@ -54,5 +54,17 @@ void main() {
 
     // Verify that we navigated to the score screen.
     expect(find.text('You scored 5 out of 6'), findsOneWidget);
+  });
+
+  testWidgets('Profile Card', (WidgetTester tester) async {
+    // Build our app and trigger a frame.
+
+    await tester.pumpWidget(const MyApp());
+
+    await tester.tap(find.byIcon(Icons.account_circle));
+    await tester.pumpAndSettle();
+
+    // Verify that the profile card is displayed.
+    expect(find.text('Profile Card'), findsOneWidget);
   });
 }
