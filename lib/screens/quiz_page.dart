@@ -10,17 +10,21 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  final List<String> _questions = [
-    'Is Flutter a framework for web development?',
-    'Does Flutter use Dart as its programming language?',
-    'Can Flutter be used for cross-platform mobile development?'
+  final List<Question> _questions = [
+    Question('Flutter is an open-source UI software development kit created by Google.', true),
+    Question('The first version of Flutter was known as Sky.', true),
+    Question('Dart is a statically-typed programming language.', true),
+    Question('Does flutter use native widgets?', false),
+    Question('Flutter was first released in May 2017.', true),
+    Question('The stable version of Flutter was released in December 2018.', true),
+
   ];
 
   int _currentQuestionIndex = 0;
   int _score = 0;
 
-  void _answerQuestion(bool isCorrect) {
-    if (isCorrect) {
+  void _answerQuestion(bool response) {
+    if (_questions[_currentQuestionIndex].isCorrect == response) {
       _score++;
     }
     setState(() {
@@ -58,7 +62,7 @@ class _QuizPageState extends State<QuizPage> {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
-              _questions[_currentQuestionIndex],
+              _questions[_currentQuestionIndex].questionText,
               style: const TextStyle(fontSize: 18),
               textAlign: TextAlign.center,
             ),
