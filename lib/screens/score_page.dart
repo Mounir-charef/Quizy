@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/quiz_provider.dart';
 
 class ScoreScreen extends StatelessWidget {
-  final int totalQuestions;
-  final int score;
-
-  const ScoreScreen({super.key, required this.totalQuestions, required this.score});
+  const ScoreScreen({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final quizProvider = Provider.of<QuizProvider>(context);
     return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'You scored $score out of $totalQuestions',
+              'You scored ${quizProvider.score} out of ${quizProvider.totalQuestions}',
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
@@ -25,6 +27,9 @@ class ScoreScreen extends StatelessWidget {
                   context,
                   '/', (Route<dynamic> route) => false,  // Remove all previous routes
                 );
+
+                // Reset the quiz
+                quizProvider.resetQuiz();
 
               },
               child: const Text(
