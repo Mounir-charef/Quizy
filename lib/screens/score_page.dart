@@ -9,9 +9,6 @@ class ScoreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Your Score'),
-      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -24,7 +21,11 @@ class ScoreScreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 // Navigate back to the home page
-                Navigator.popUntil(context, (route) => route.isFirst);
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/', (Route<dynamic> route) => false,  // Remove all previous routes
+                );
+
               },
               child: const Text(
                 'Go back',
