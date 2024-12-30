@@ -10,29 +10,31 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  final List<Question> _questions = [
-    Question('Is Flutter a framework for web development?', false),
-    Question('Does Flutter use Dart as its programming language?', true),
-    Question('Can Flutter be used for cross-platform mobile development?', true),
+  final List<String> _questions = [
+    'Is Flutter a framework for web development?',
+    'Does Flutter use Dart as its programming language?',
+    'Can Flutter be used for cross-platform mobile development?'
   ];
 
   int _currentQuestionIndex = 0;
   int _score = 0;
 
-  void _answerQuestion(bool userChoice) {
-    if (_questions[_currentQuestionIndex].isCorrect == userChoice) {
+  void _answerQuestion(bool isCorrect) {
+    if (isCorrect) {
       _score++;
     }
-
     setState(() {
       if (_currentQuestionIndex < _questions.length - 1) {
         _currentQuestionIndex++;
       } else {
+        // Navigate to a score screen
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>
-                ScorePage(score: _score, total: _questions.length),
+            builder: (context) => ScoreScreen(
+              totalQuestions: _questions.length,
+              score: _score,
+            ),
           ),
         );
       }
@@ -41,48 +43,35 @@ class _QuizPageState extends State<QuizPage> {
 
   @override
   Widget build(BuildContext context) {
-    final currentQuestion = _questions[_currentQuestionIndex];
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Quiz'),
+        title: Text('Question ${_currentQuestionIndex + 1} of ${_questions.length}'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Image.asset(
-              'assets/quiz.png',
-              height: 200,
-            ),
-            const SizedBox(height: 20),
-            Text(
-              'Question ${_currentQuestionIndex + 1} of ${_questions.length}',
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 20),
-            Text(
-              currentQuestion.questionText,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Image.asset('assets/quiz.png', height: 200),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              _questions[_currentQuestionIndex],
               style: const TextStyle(fontSize: 18),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () => _answerQuestion(true),
-              child: const Text('True'),
-            ),
-            ElevatedButton(
-              onPressed: () => _answerQuestion(false),
-              child: const Text('False'),
-            ),
-          ],
-        ),
+          ),
+          ElevatedButton(
+            onPressed: () => _answerQuestion(true),
+            child: const Text('True'),
+          ),
+          ElevatedButton(
+            onPressed: () => _answerQuestion(false),
+            child: const Text('False'),
+          ),
+        ],
       ),
     );
   }
