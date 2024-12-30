@@ -4,6 +4,7 @@ import '../models/question.dart';
 class QuizProvider with ChangeNotifier {
   int _currentQuestionIndex = 0;
   int _score = 0;
+  bool _isFinished = false;
   final List<Question> _questions;
 
 
@@ -12,6 +13,7 @@ class QuizProvider with ChangeNotifier {
   int get totalQuestions => _questions.length;
   int get questionNumber => _currentQuestionIndex + 1;
   List<Question> get questions => _questions;
+  bool get isFinished => _isFinished;
 
   void answerQuestion(bool response) {
     if (_questions[_currentQuestionIndex].isCorrect == response) {
@@ -19,6 +21,8 @@ class QuizProvider with ChangeNotifier {
     }
     if (_currentQuestionIndex < _questions.length - 1) {
       _currentQuestionIndex++;
+    } else {
+      _isFinished = true;
     }
     notifyListeners();
   }
@@ -26,7 +30,8 @@ class QuizProvider with ChangeNotifier {
   void resetQuiz() {
     _score = 0;
     _currentQuestionIndex = 0;
-    notifyListeners();  // Réinitialiser et notifier
+    _isFinished = false;
+    notifyListeners();
   }
 
   QuizProvider(this._questions);

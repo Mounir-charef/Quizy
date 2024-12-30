@@ -10,12 +10,24 @@ class QuizPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<QuizProvider>(
       builder: (context, quizProvider, child) {
-        final currentQuestionIndex = quizProvider.currentQuestionIndex;
-        final questions = quizProvider.questions;
+
+
+        bool handelAnswer(bool response) {
+          quizProvider.answerQuestion(response);
+          if (quizProvider.isFinished) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ScoreScreen(),
+              ),
+            );
+          }
+          return true;
+        }
 
         return Scaffold(
           appBar: AppBar(
-            title: Text('Question ${currentQuestionIndex + 1} of ${questions.length}'),
+            title: Text('Question ${quizProvider.questionNumber} of ${quizProvider.totalQuestions}'),
           ),
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -28,36 +40,20 @@ class QuizPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Text(
-                  questions[currentQuestionIndex].questionText,
+                  quizProvider.questions[quizProvider.currentQuestionIndex].questionText,
                   style: const TextStyle(fontSize: 18),
                   textAlign: TextAlign.center,
                 ),
               ),
               ElevatedButton(
                 onPressed: () {
-                  quizProvider.answerQuestion(true);
-                  if (quizProvider.currentQuestionIndex == questions.length - 1) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ScoreScreen(),
-                      ),
-                    );
-                  }
+                  handelAnswer(true);
                 },
                 child: const Text('True'),
               ),
               ElevatedButton(
                 onPressed: () {
-                  quizProvider.answerQuestion(false);
-                  if (quizProvider.currentQuestionIndex == questions.length - 1) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ScoreScreen(),
-                      ),
-                    );
-                  }
+                  handelAnswer(false);
                 },
                 child: const Text('False'),
               ),
