@@ -1,71 +1,75 @@
 import 'package:flutter/material.dart';
-import '../models/question.dart';
-import 'score_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../quiz_bloc.dart';
+import '../quiz_event.dart';
+import '../quiz_state.dart';
 
-class QuizPage extends StatefulWidget {
+class QuizPage extends StatelessWidget {
   const QuizPage({super.key});
-
-  @override
-  State<QuizPage> createState() => _QuizPageState();
-}
-
-class _QuizPageState extends State<QuizPage> {
-  int _currentQuestionIndex = 0;
-  int _score = 0;
-
-  void _answerQuestion(bool response) {
-    if (questions[_currentQuestionIndex].isCorrect == response) {
-      _score++;
-    }
-    setState(() {
-      if (_currentQuestionIndex < questions.length - 1) {
-        _currentQuestionIndex++;
-      } else {
-        // Navigate to a score screen
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ScoreScreen(
-              totalQuestions: questions.length,
-              score: _score,
-            ),
-          ),
-        );
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Question ${_currentQuestionIndex + 1} of ${questions.length}'),
+        title: BlocBuilder<QuizBloc, QuizState>(
+          builder: (context, state) {
+            if (state is QuizInProgressState) {
+              return Text(
+                'Question ${state.currentQuestionIndex + 1} of ${state.questions.length}',
+              );
+            }
+            return const Text('Quiz');
+          },
+        ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Image.asset('assets/quiz.png', height: 200),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              questions[_currentQuestionIndex].questionText,
-              style: const TextStyle(fontSize: 18),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () => _answerQuestion(true),
-            child: const Text('True'),
-          ),
-          ElevatedButton(
-            onPressed: () => _answerQuestion(false),
-            child: const Text('False'),
-          ),
-        ],
+      body: BlocBuilder<QuizBloc, QuizState>(
+        builder: (context, state) {
+          if (state is QuizInProgressState) {
+            final question = state.questions[state.currentQuestionIndex];
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Image.asset('assets/quiz.png', height: 200),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    question.questionText,
+                    style: const TextStyle(fontSize: 18),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    context
+                        .read<QuizBloc>()
+                        .add(AnswerQuestionEvent(true));
+                  },
+                  child: const Text('True'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    context
+                        .read<QuizBloc>()
+                        .add(AnswerQuestionEvent(false));
+                  },
+                  child: const Text('False'),
+                ),
+              ],
+            );
+          } else if (state is QuizFinishedState) {
+            // Navigate to ScoreScreen when quiz finishes
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              Navigator.pushReplacementNamed(context, '/score');
+            });
+            return const SizedBox.shrink(); // Placeholder while navigating
+          }
+
+          return const Center(child: CircularProgressIndicator());
+        },
       ),
     );
   }
