@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'profile_card.dart';
 import 'quiz_page.dart';
 import 'add_question_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -30,6 +31,12 @@ class HomePage extends StatelessWidget {
                 MaterialPageRoute(
                     builder: (context) => const AddQuestionPage()),
               );
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () {
+              FirebaseAuth.instance.signOut();
             },
           ),
         ],
