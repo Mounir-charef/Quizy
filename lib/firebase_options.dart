@@ -65,4 +65,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'quizy-94956.firebasestorage.app',
     iosBundleId: 'com.example.quizy',
   );
+
 }

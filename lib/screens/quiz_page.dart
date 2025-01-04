@@ -29,7 +29,6 @@ class _QuizPageState extends State<QuizPage> {
         _isLoading = false;
       });
     } catch (e) {
-      // Handle errors
       debugPrint('Error loading questions: $e');
       setState(() {
         _isLoading = false;
@@ -84,6 +83,16 @@ class _QuizPageState extends State<QuizPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          // Display the image
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Image.asset(
+              'assets/quiz.png',
+              height: 150, // Adjust height as needed
+              fit: BoxFit.contain,
+            ),
+          ),
+          // Display the question text
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
@@ -92,6 +101,7 @@ class _QuizPageState extends State<QuizPage> {
               textAlign: TextAlign.center,
             ),
           ),
+          // True/False buttons
           ElevatedButton(
             onPressed: () => _answerQuestion(true),
             child: const Text('True'),

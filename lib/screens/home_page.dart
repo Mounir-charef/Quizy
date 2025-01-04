@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'profile_card.dart';
 import 'quiz_page.dart';
+import 'add_question_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -16,7 +17,18 @@ class HomePage extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const ProfileCardPage()),
+                MaterialPageRoute(
+                    builder: (context) => const ProfileCardPage()),
+              );
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const AddQuestionPage()),
               );
             },
           ),
