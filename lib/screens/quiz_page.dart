@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/question.dart';
 import 'score_page.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 class QuizPage extends StatefulWidget {
   const QuizPage({super.key});
@@ -44,6 +45,7 @@ class _QuizPageState extends State<QuizPage> {
       if (_currentQuestionIndex < _questions.length - 1) {
         _currentQuestionIndex++;
       } else {
+        FirebaseAnalytics.instance.logEvent(name: 'quiz_completed', parameters: {'score': _score});
         Navigator.push(
           context,
           MaterialPageRoute(
