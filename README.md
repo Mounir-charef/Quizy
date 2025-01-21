@@ -1,7 +1,7 @@
 # Flutter Quiz App
 
 A simple Flutter application that presents a quiz to the user and displays the score at the end.
-
+[![Watch the video](https://drive.google.com/file/d/1ivQ9u-JrUmIR5YWDeIKPRWOjfnCU8Dmp/view?usp=sharing)
 ## Features
 
 - Displays a series of true/false questions.
